@@ -12,8 +12,10 @@ RUN apt-get update && apt-get install -y libpq-dev \
 
 COPY docker/php/conf.d/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 COPY --from=build /app /var/www/html
+COPY docker/httpd.conf /etc/apache2/httpd.conf
 COPY docker/000-default.conf /etc/apache2/sites-available/000-default.conf
 COPY .env.prod /var/www/html/.env
+
 
 RUN php artisan config:cache && \
     php artisan route:cache && \
